@@ -14,12 +14,14 @@ import com.example.gdxapp.MyGdxApp;
 public class AndroidLauncher extends AndroidApplication {
 	
 	String userImagePath = null;
+	AndroidGalleryOpener opener;
 	
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-		initialize(new MyGdxApp(new AndroidGalleryOpener(this)), config);
+		opener = new AndroidGalleryOpener(this);
+		initialize(new MyGdxApp(opener), config);
 	}
 	
 	@Override
@@ -28,7 +30,7 @@ public class AndroidLauncher extends AndroidApplication {
 			Uri imageUri = data.getData();
 			this.userImagePath = getPath(imageUri);
 			Gdx.app.log("AndroidGalleryOpener", "Image path is " + userImagePath);
-			
+			opener.setImageResult(userImagePath);
 		}
 		//super.onActivityResult(requestCode, resultCode, data);
 	}
